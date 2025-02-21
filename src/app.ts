@@ -1,20 +1,29 @@
 import express, { application } from "express";
+import router from "./routes/api.route";
 
 export class App{
     private app = application
 
+    constructor(){
+        this.app = express();
+        this.middlewares();
+        this.routes();
+        this.settings();
+    }
+
     middlewares(){
         this.app.use(express.urlencoded({extended: false}));
         this.app.use(express.json());
-        this.app.use('cors');
+        //this.app.use('cors');
     }
 
     routes(){
-        this.app.use('/');
+        this.app.use('/api', router);
+        //this.app.use('/auth', router);
     }
 
     settings(){
-        this.app.set('port', process.env.PORT || 3000);
+        this.app.set('port', process.env. PORT || 3000);
     }
 
     async listen(){
@@ -38,3 +47,5 @@ export class App{
 // Los strings en apiRest tienen una codificación que se llama JSON, que es un formato de intercambio de datos, es decir, es un formato que se utiliza para
 // intercambiar datos entre el front y el back.
 
+
+// Por qué el puerto aparece undefined? Porque no se ha definido el puerto en la clase App, por lo que se debe definir el puerto en la clase App.

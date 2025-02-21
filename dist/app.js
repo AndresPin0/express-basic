@@ -41,20 +41,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = void 0;
 const express_1 = __importStar(require("express"));
+const api_route_1 = __importDefault(require("./routes/api.route"));
 class App {
     constructor() {
         this.app = express_1.application;
+        this.app = (0, express_1.default)();
+        this.middlewares();
+        this.routes();
+        this.settings();
     }
     middlewares() {
         this.app.use(express_1.default.urlencoded({ extended: false }));
         this.app.use(express_1.default.json());
-        this.app.use('cors');
+        //this.app.use('cors');
     }
     routes() {
-        this.app.use('/');
+        this.app.use('/api', api_route_1.default);
+        //this.app.use('/auth', router);
     }
     settings() {
         this.app.set('port', process.env.PORT || 3000);
@@ -74,3 +83,4 @@ exports.App = App;
 // que se puedan hacer peticiones desde un servidor a otro.
 // Los strings en apiRest tienen una codificación que se llama JSON, que es un formato de intercambio de datos, es decir, es un formato que se utiliza para
 // intercambiar datos entre el front y el back.
+// Por qué el puerto aparece undefined? Porque no se ha definido el puerto en la clase App, por lo que se debe definir el puerto en la clase App.
